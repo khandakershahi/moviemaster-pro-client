@@ -14,8 +14,9 @@ const Navbar = () => {
 // {Home, All Movies, My Collection, Login/Register}
     const links = <>
         <li><NavLink to='/'>Home</NavLink></li>
-        <li><NavLink to='/'>All Movies</NavLink></li>
-        <li><NavLink to='/'>My Collection</NavLink></li>
+        <li><NavLink to='/all-movies'>All Movies</NavLink></li>
+        <li><NavLink to='/my-collection'>My Collection</NavLink></li>
+        <li><NavLink to='/watchlist'>Watchlist</NavLink></li>
         
 
     </>
@@ -41,7 +42,7 @@ const Navbar = () => {
                              
                             </ul>
                         </div>
-                        <a className="btn btn-ghost text-xl">daisyUI</a>
+                        <NavLink to='/' className=" text-xl">Master Movie Pro</NavLink>
                     </div>
                     <div className="navbar-center hidden lg:flex">
                         <ul className="menu menu-horizontal px-1">
