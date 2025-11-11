@@ -42,7 +42,7 @@ const Navbar = () => {
                              
                             </ul>
                         </div>
-                        <NavLink to='/' className=" text-xl">Master Movie Pro</NavLink>
+                        <NavLink to='/' className=" text-xl flex justify-center items-center"><img className='size-10 mr-1' src="./logo.png" alt="" />Master Movie Pro </NavLink>
                     </div>
                     <div className="navbar-center hidden lg:flex">
                         <ul className="menu menu-horizontal px-1">

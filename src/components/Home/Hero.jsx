@@ -5,22 +5,23 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import axios from 'axios';
 import { FaPlay, FaStar } from 'react-icons/fa';
 import { FiInfo } from 'react-icons/fi';
+import useAxios from '../../hooks/useAxios';
 
 
 const Hero = () => {
 
     const [sliderData, setSliderData] = useState([]);
+    const axiosMain = useAxios()
 
     useEffect(() => {
-        axios.get('http://localhost:3000/movie-slider')
+        axiosMain.get('/movie-slider')
             .then(res => {
-                console.log('slider data', res.data);
+                // console.log('slider data', res.data);
                 setSliderData(res.data);
             })
-    }, [])
+    }, [axiosMain])
 
 
     return (
@@ -29,7 +30,8 @@ const Hero = () => {
                 modules={[Autoplay]}
                 navigation
                 autoplay={{ delay: 3000, disableOnInteraction: false }}
-                loop={sliderData.length > 6}
+                // loop={sliderData.length > 6}
+                rewind={true}
                 spaceBetween={30}
                 slidesPerView={1}
                 className="mySwiper"
@@ -50,7 +52,7 @@ const Hero = () => {
                             }}
                         >
                             {/* Overlay for better readability - full */}
-                            <div className="absolute inset-0 bg-black/50"></div>
+                            <div className="absolute inset-0 bg-black/30"></div>
 
                             {/* Top overlay */}
                             <div className="absolute top-0 left-0 right-0 h-32 bg-linear-to-b from-black/70 to-transparent"></div>
@@ -64,7 +66,7 @@ const Hero = () => {
                                 <div className='flex flex-row felx-start gap-3'>
                                     <div className='btn btn-outline hover:btn-disabled cursor-default'>
                                         <FaStar className='text-yellow-500' />
-                                        <span className=' text-xs font-medium text-white'>{slider.rating}</span>
+                                        <span className=' text-xs font-medium text-yellow-500'>{slider.rating}</span>
                                     </div>
                                     <div className='btn btn-outline hover:btn-disabled cursor-default'>
                                         <span className=' text-xs font-medium text-white'>{slider.releaseYear}</span>
