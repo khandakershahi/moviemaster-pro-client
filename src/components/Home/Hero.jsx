@@ -30,8 +30,8 @@ const Hero = () => {
                 modules={[Autoplay]}
                 navigation
                 autoplay={{ delay: 3000, disableOnInteraction: false }}
-                // loop={sliderData.length > 6}
-                rewind={true}
+                loop={sliderData.length > 2}
+                // rewind={true}
                 spaceBetween={30}
                 slidesPerView={1}
                 className="mySwiper"

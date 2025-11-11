@@ -9,3 +9,14 @@
 *{
   font-family: DM Sans, sans-serif;
 }
+
+
+
+.top5::before{
+	content: "";
+	width: 8px;
+	height: 28px;
+	border-radius: 4px;
+	background: var(--color-primary);
+  display: inline-block;
+}
