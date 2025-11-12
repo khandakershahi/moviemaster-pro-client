@@ -5,6 +5,11 @@ import Home from '../Page/Home';
 import AllMovies from '../Page/AllMovies';
 import MyCollection from '../Page/MyCollection';
 import WatchList from '../Page/WatchList';
+import Register from '../Page/Register';
+import Login from '../Page/Login';
+import Error404 from '../Page/Error404';
+import Loading from '../components/Loading/Loading';
+import MovieDetails from '../Page/MovieDetails';
 
 
 const router = createBrowserRouter([
@@ -18,7 +23,8 @@ const router = createBrowserRouter([
                 },
                 {
                     path: '/all-movies',
-                    Component: AllMovies
+                    Component: AllMovies,
+                    
                 },
                 {
                     path: '/my-collection',
@@ -27,6 +33,23 @@ const router = createBrowserRouter([
                 {
                     path: '/watchlist',
                     Component: WatchList
+                },
+                {
+                    path: '/register',
+                    Component: Register
+                },
+                {
+                    path: '/login',
+                    Component: Login
+                },
+                {
+                    path: '/movie-detials/:id',
+                    Component: MovieDetails
+                },
+                {
+                    path: '/*',
+                    Component: Error404
+
                 }
 
             ]

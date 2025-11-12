@@ -10,7 +10,7 @@ const Footer = () => {
                 <div className='max-w-7xl mx-auto footer sm:footer-horizontal'>
                     {/* Copyright Section */}
                     <aside>
-                        <NavLink to='/' className=" text-xl flex justify-center items-center"><img className='size-10 mr-1' src="./logo.png" alt="" />Master Movie Pro </NavLink>
+                        <NavLink to='/' className=" text-xl flex justify-center items-center"><img className='size-10 mr-1' src="/logo.png" alt="" />Master Movie Pro </NavLink>
                         <p className="mt-2 text-sm opacity-75">
                             © {new Date().getFullYear()} Move Master Pro. All rights reserved.
                         </p>
@@ -19,8 +19,8 @@ const Footer = () => {
                     {/* Quick Links Section */}
                     <nav>
                         <h6 className="footer-title">Quick Links</h6>
-                        <a className="link link-hover">Home</a>
-                        <a className="link link-hover">Movies</a>
+                        <NavLink to='/' className="link link-hover">Home</NavLink>
+                        <NavLink to='/all-movies' className="link link-hover">Movies</NavLink>
                         <a className="link link-hover">About</a>
                         <a className="link link-hover">Contact</a>
                     </nav>

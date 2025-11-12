@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { NavLink } from 'react-router';
+import { AuthContext } from '../../context/AuthContext';
 
 const Navbar = () => {
+
+    const { user, siginOutUser } = use(AuthContext);
 
 
     const [isdark, setIsdark] = useState(
@@ -11,12 +14,22 @@ const Navbar = () => {
         localStorage.setItem('isdark', JSON.stringify(isdark));
     }, [isdark]);
 
+
+    const handleSignOut = () => {
+        siginOutUser()
+            .then()
+            .catch()
+    }
 // {Home, All Movies, My Collection, Login/Register}
     const links = <>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/all-movies'>All Movies</NavLink></li>
-        <li><NavLink to='/my-collection'>My Collection</NavLink></li>
-        <li><NavLink to='/watchlist'>Watchlist</NavLink></li>
+        {
+            user && <>
+                <li><NavLink to='/my-collection'>My Collection</NavLink></li>
+                <li><NavLink to='/watchlist'>Watchlist</NavLink></li>
+                </>
+       }
         
 
     </>
@@ -42,7 +55,7 @@ const Navbar = () => {
                              
                             </ul>
                         </div>
-                        <NavLink to='/' className=" text-xl flex justify-center items-center"><img className='size-10 mr-1' src="./logo.png" alt="" />Master Movie Pro </NavLink>
+                        <NavLink to='/' className=" text-xl flex justify-center items-center"><img className='size-10 mr-1' src="/logo.png" alt="" />Master Movie Pro </NavLink>
                     </div>
                     <div className="navbar-center hidden lg:flex">
                         <ul className="menu menu-horizontal px-1">
@@ -53,7 +66,13 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <div className="navbar-end">
-                        <NavLink className="btn btn-primary" to='/register'>Login/Register</NavLink>
+
+                        {
+                            user ?
+                                 <NavLink onClick={handleSignOut}  className="btn btn-primary">Logout</NavLink> :
+                                <NavLink className="btn btn-primary" to='/login'>Login/Register</NavLink>
+                        }
+                       
                        
                         
                     </div>

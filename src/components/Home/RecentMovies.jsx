@@ -1,52 +1,76 @@
-import React, { useEffect, useState } from 'react';
-import useAxios from '../../hooks/useAxios';
-import { FaStar } from 'react-icons/fa';
+import React, { useEffect, useState } from "react";
+import useAxios from "../../hooks/useAxios";
+import { FaStar } from "react-icons/fa";
+import { NavLink } from "react-router";
 
 const RecentMovies = () => {
+    const [recentMovies, setRecentMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-
-    const [recentMvoies, setRencetMovies] = useState([]);
-
-    const axiosTopMovie = useAxios()
+    const axiosTopMovie = useAxios();
 
     useEffect(() => {
-        axiosTopMovie.get('/movie-recent')
-            .then(res => {
-                // console.log('slider data', res.data);
-                setRencetMovies(res.data);
+        setLoading(true);
+        axiosTopMovie
+            .get("/movie-recent")
+            .then((res) => {
+                setRecentMovies(res.data);
             })
-    }, [axiosTopMovie])
+            .catch((err) => console.error("Error fetching recent movies:", err))
+            .finally(() => setLoading(false));
+    }, [axiosTopMovie]);
+
+    
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-[60vh]">
+                <span className="loading loading-spinner text-primary loading-lg"></span>
+            </div>
+        );
+    }
+
+ 
+    if (!recentMovies.length) {
+        return (
+            <div className="flex justify-center items-center h-[60vh]">
+                <p className="text-gray-500">No recent movies found.</p>
+            </div>
+        );
+    }
 
     return (
-        <div className='max-w-7xl mx-auto py-10'>
-            <div className='flex flex-col gap-4'>
-                <h2 className='top5 text-2xl flex items-center gap-3'>Recent Movies</h2>
-                <div className='flex flex-row justify-between'>
-                    {
-                        recentMvoies.map((movie, _id) =>
-                            <div key={_id}
-                                style={{
-                                    backgroundImage: `url(${movie.posterUrl})`,
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center',
-                                    backgroundRepeat: 'no-repeat',
-                                    height: '300px',
-                                    width: '200px',
-                                    position: 'relative',
-                                    color: 'white',
+        <div className="max-w-7xl mx-auto py-10">
+            <div className="flex flex-col gap-4">
+                <h2 className="text-2xl flex items-center gap-3">Recent Movies</h2>
 
-                                }}
-
-
-                            >
-                                <div className="absolute inset-0 bg-black/30"></div>
-                                <div className='absolute bottom-0 px-2'>
-                                    <span className=' text-xs font-medium text-yellow-500 flex gap-1 items-center'> <FaStar className='text-yellow-500' />{movie.rating}</span>
-                                    <p>{movie.title}</p>
+                <div className="flex flex-row justify-between flex-wrap gap-3">
+                    {recentMovies.map((movie, _id) => (
+                       
+                        <NavLink key={_id} to={`/movie-detials/${movie._id}`}>
+                                <div
+                                  
+                                    style={{
+                                        backgroundImage: `url(${movie.posterUrl})`,
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+                                        backgroundRepeat: "no-repeat",
+                                        height: "300px",
+                                        width: "200px",
+                                        position: "relative",
+                                        color: "white",
+                                    }}
+                                >
+                                    <div className="absolute inset-0 bg-black/30"></div>
+                                    <div className="absolute bottom-0 px-2">
+                                        <span className="text-xs font-medium text-yellow-500 flex gap-1 items-center">
+                                            <FaStar className="text-yellow-500" />
+                                            {movie.rating}
+                                        </span>
+                                        <p>{movie.title}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    }
+                        </NavLink>
+                    ))}
                 </div>
             </div>
         </div>
