@@ -35,7 +35,7 @@ const AllMovies = () => {
                 <h2 className="top5 text-2xl flex items-center gap-3">All Movies</h2>
                 <div className="flex flex-row justify-between flex-wrap gap-5">
                     {allMovies.map((movie, id) => (
-                        <NavLink to={`/movie-detials/${movie._id}`} key={id}>
+                        <NavLink to={`/movie-detials/${movie._id}`} key={id} className="shadow duration-300 hover:scale-105 hover:shadow-2xl">
                             <div
                                
                                 style={{

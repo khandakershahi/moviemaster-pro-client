@@ -17,7 +17,7 @@ const Login = () => {
 
         try {
             const result = await signInUser(email, password);
-            console.log("Login success:", result.user);
+            // console.log("Login success:", result.user);
             toast.success("Login successful!");
             navigate(location?.state || "/");
         } catch (error) {
@@ -30,7 +30,7 @@ const Login = () => {
     const handleGoogleSignIn = async () => {
         try {
             const result = await signIngWithGoogle();
-            console.log("Google login success:", result.user);
+            // console.log("Google login success:", result.user);
             toast.success("Google login successful!");
             navigate(location?.state || "/");
         } catch (error) {
