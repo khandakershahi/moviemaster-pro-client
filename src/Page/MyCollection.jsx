@@ -57,7 +57,7 @@ const MyCollection = () => {
 
     return (
         <div className="max-w-7xl mx-auto py-10">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 px-4 ">
                 <h2 className="text-2xl font-bold text-center">🎞 My Collections</h2>
 
                 {myMovies.length === 0 ? (
@@ -65,7 +65,7 @@ const MyCollection = () => {
                         You haven’t added any movies yet.
                     </p>
                 ) : (
-                    <div className="flex flex-row justify-between flex-wrap gap-5">
+                        <div className="flex flex-row justify-center md:justify-between flex-wrap gap-5">
                         {myMovies.map((movie) => (
                             <div
                                 key={movie._id}

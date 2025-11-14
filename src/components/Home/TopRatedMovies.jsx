@@ -39,9 +39,10 @@ const TopRatedMovies = () => {
 
     return (
         <div className='max-w-7xl mx-auto py-10'>
-            <div className='flex flex-col gap-4'>
+            <div className="flex flex-col flex-wrap gap-4 md:px-4">
                 <h2 className='top5 text-2xl flex items-center gap-3'>Top Rated Movies</h2>
-                <div className='flex flex-row justify-between flex-wrap gap-3'>
+
+                <div className="flex flex-wrap justify-center md:justify-start gap-3">
                     {
                         topMvoies.map((movie, _id) =>
                             <NavLink key={_id} to={`/movies/${movie._id}`} className="shadow duration-300 hover:scale-105 hover:shadow-2xl">
@@ -52,7 +53,7 @@ const TopRatedMovies = () => {
                                         backgroundPosition: 'center',
                                         backgroundRepeat: 'no-repeat',
                                         height: '300px',
-                                        width: '200px',
+                                        width: '195px',
                                         position: 'relative',
                                         color: 'white',
                                     }}

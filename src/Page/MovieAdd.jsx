@@ -57,11 +57,13 @@ const MovieAdd = () => {
     };
 
     return (
-        <section className="py-12 bg-base-100">
-            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 shadow-xl border border-secondary rounded-3xl p-8">
+        <section className="py-10 bg-base-100">
+            <div className="max-w-4xl  mx-4 md:mx-auto px-4 sm:px-6 lg:px-8 shadow-xl border border-secondary rounded-3xl p-6 sm:p-8">
                 <div className="flex items-center mb-6">
                     <FaPlusCircle className="text-3xl text-primary mr-3" />
-                    <h1 className="text-3xl font-bold text-base-content">Add a New Movie</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-base-content">
+                        Add a New Movie
+                    </h1>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -190,6 +192,7 @@ const MovieAdd = () => {
                 </form>
             </div>
         </section>
+
     );
 };
 

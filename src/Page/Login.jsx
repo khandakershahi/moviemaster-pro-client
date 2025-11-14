@@ -40,36 +40,43 @@ const Login = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto py-22 flex justify-center">
-            <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl border border-secondary">
-                <h1 className="text-5xl font-bold text-center">Login now!</h1>
+        <div className="flex justify-center py-10 px-4">
+            <div className="card bg-base-100 w-full max-w-sm sm:max-w-md md:max-w-lg shrink-0 shadow-2xl border border-secondary">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mt-6">
+                    Login now!
+                </h1>
+
                 <form onSubmit={handleSubmit} className="card-body">
-                    <fieldset className="fieldset">
-                        <label className="label">Email</label>
-                        <input
-                            type="email"
-                            className="input"
-                            placeholder="Email"
-                            name="email"
-                            required
-                        />
+                    <fieldset className="fieldset flex flex-col gap-4">
+                        <div className="flex flex-col">
+                            <label className="label">Email</label>
+                            <input
+                                type="email"
+                                className="input w-full"
+                                placeholder="Email"
+                                name="email"
+                                required
+                            />
+                        </div>
 
-                        <label className="label">Password</label>
-                        <input
-                            type="password"
-                            className="input"
-                            placeholder="Password"
-                            name="password"
-                            required
-                        />
+                        <div className="flex flex-col">
+                            <label className="label">Password</label>
+                            <input
+                                type="password"
+                                className="input w-full"
+                                placeholder="Password"
+                                name="password"
+                                required
+                            />
+                        </div>
 
-                        <div>
-                            <NavLink to="/register" className="link link-hover">
+                        <div className="text-center">
+                            <NavLink to="/register" className="link link-hover text-sm sm:text-base">
                                 New to site? Register here.
                             </NavLink>
                         </div>
 
-                        <button type="submit" className="btn btn-primary mt-4">
+                        <button type="submit" className="btn btn-primary mt-4 w-full">
                             Login
                         </button>
                     </fieldset>
@@ -77,13 +84,14 @@ const Login = () => {
 
                 <button
                     onClick={handleGoogleSignIn}
-                    className="btn bg-white text-black border-[#e5e5e5] m-5"
+                    className="btn bg-white text-black border-[#e5e5e5] m-5 flex justify-center items-center gap-2 w-[calc(100%-1.25rem)] mx-auto"
                 >
                     <FcGoogle size={20} />
                     Login with Google
                 </button>
             </div>
         </div>
+
     );
 };
 
