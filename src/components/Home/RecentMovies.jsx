@@ -41,12 +41,12 @@ const RecentMovies = () => {
     return (
         <div className="max-w-7xl mx-auto py-10">
             <div className="flex flex-col gap-4">
-                <h2 className="text-2xl flex items-center gap-3">Recent Movies</h2>
+                <h2 className="top5 text-2xl flex items-center gap-3">Recent Movies</h2>
 
                 <div className="flex flex-row justify-between flex-wrap gap-3">
                     {recentMovies.map((movie, _id) => (
                        
-                        <NavLink key={_id} to={`/movie-detials/${movie._id}`} className="shadow duration-300 hover:scale-105 hover:shadow-2xl">
+                        <NavLink key={_id} to={`/movies/${movie._id}`} className="shadow duration-300 hover:scale-105 hover:shadow-2xl">
                                 <div
                                   
                                     style={{

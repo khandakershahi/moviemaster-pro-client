@@ -1,10 +1,13 @@
+// src/Page/MovieDetail.jsx
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router';
 import { FaStar, FaPlay, FaFilm, FaEdit, FaTrash, FaBookmark } from 'react-icons/fa';
-import 'animate.css'; // Import animate.css
+import 'animate.css';
 import useAxios from '../hooks/useAxios';
 import { auth } from '../firebase/firebase.init';
-
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
+import useAxiosSecure from '../hooks/useAxiosSecure';
 
 const MovieDetail = () => {
     const { id } = useParams();
@@ -15,8 +18,10 @@ const MovieDetail = () => {
     const [inWatchlist, setInWatchlist] = useState(false);
     const [error, setError] = useState(null);
     const axiosMain = useAxios();
-    const user = auth.currentUser; // Firebase auth user
+    const user = auth.currentUser;
     const sectionRefs = useRef([]);
+    const axiosSecure = useAxiosSecure();
+
 
     // Fetch movie details, reviews, and watchlist status
     useEffect(() => {
@@ -24,7 +29,7 @@ const MovieDetail = () => {
         axiosMain
             .get(`/movies/${id}`)
             .then((res) => setMovie(res.data))
-            .catch((err) => setError('Failed to load movie details'));
+            .catch((err) => setError(err.response?.data?.message || 'Failed to load movie details'));
 
         // Reviews
         axiosMain
@@ -34,12 +39,11 @@ const MovieDetail = () => {
 
         // Watchlist status
         if (user) {
-            axiosMain
-                .get(`/watchlist/check/${id}`, { params: { userEmail: user.email } })
-                .then((res) => setInWatchlist(res.data.inWatchlist))
-                .catch((err) => console.error('Failed to check watchlist:', err));
+            axiosSecure.get(`/watchlist/check/${id}`)
+                .then(res => setInWatchlist(res.data.inWatchlist))
+                .catch(err => console.log(err));
         }
-    }, [axiosMain, id, user]);
+    }, [axiosMain, id, user, axiosSecure]);
 
     // IntersectionObserver for animations
     useEffect(() => {
@@ -66,48 +70,89 @@ const MovieDetail = () => {
                 if (section) observer.unobserve(section);
             });
         };
-    }, []);
+    }, [movie]); // Add movie to ensure sections are observed after data loads
 
     // Handle review submission
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
-        if (!user) return alert('Please log in to submit a review');
+        if (!user) {
+            toast.error('Please log in to submit a review');
+            navigate('/login');
+            return;
+        }
+        const ratingNum = Number(newReview.rating);
+        if (!newReview.comment || !ratingNum || ratingNum < 1 || ratingNum > 10) {
+            toast.error('Please provide a comment and a rating between 1 and 10');
+            return;
+        }
         try {
-            const response = await axiosMain.post('/reviews', {
+            const response = await axiosSecure.post('/reviews', {
                 movieId: id,
                 userEmail: user.email,
                 comment: newReview.comment,
-                rating: newReview.rating,
+                rating: ratingNum,
             });
-            setReviews([{ ...newReview, userEmail: user.email, createdAt: new Date() }, ...reviews]);
+            setReviews([{ _id: response.data.insertedId, userEmail: user.email, comment: newReview.comment, rating: ratingNum, createdAt: new Date() }, ...reviews]);
             setNewReview({ comment: '', rating: '' });
+            toast.success('Review submitted successfully');
         } catch (err) {
-            alert('Failed to submit review');
+            toast.error(err.response?.data?.message || 'Failed to submit review');
         }
     };
 
     // Handle watchlist toggle
     const handleWatchlistToggle = async () => {
-        if (!user) return alert('Please log in to add to watchlist');
+        console.log(user.email);
+        if (!user) {
+            toast.error('Please log in to add to watchlist');
+            navigate('/login');
+            return;
+        }
         try {
-            await axiosMain.post('/watchlist', { movieId: id, userEmail: user.email });
+            await axiosSecure.post('/watchlist', { movieId: id, userEmail: user.email });
+
             setInWatchlist(true);
+
+            toast.success('Added to watchlist');
         } catch (err) {
-            alert('Failed to add to watchlist');
+            toast.error(err.response?.data?.message || 'Failed to add to watchlist');
         }
     };
 
-    // Handle movie deletion
+    // handleDelete
+ 
+
     const handleDelete = async () => {
-        if (!user) return alert('Please log in to delete');
-        if (window.confirm('Are you sure you want to delete this movie?')) {
-            try {
-                await axiosMain.delete(`/movies/${id}`, { data: { userEmail: user.email } });
-                navigate('/'); // Redirect to home
-            } catch (err) {
-                alert('Failed to delete movie');
-            }
+        if (!user) {
+            toast.error('Please log in to delete');
+            navigate('/login');
+            return;
         }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await axiosSecure.delete(`/movies/${id}`);
+                    await Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Your movie has been deleted.',
+                        icon: 'success',
+                    });
+                    toast.success('Movie deleted successfully');
+                    navigate('/movies/my-collection');
+                } catch (err) {
+                    toast.error(err.response?.data?.message || 'Failed to delete movie');
+                }
+            }
+        });
     };
 
     if (error) {
@@ -140,17 +185,17 @@ const MovieDetail = () => {
             >
                 <div className="absolute inset-0 bg-black/50"></div>
                 <div className="relative z-10 flex flex-col justify-center items-start h-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-                    <h1 className="text-4xl md:text-5xl font-bold text-base-content">{movie.title}</h1>
+                    <h1 className="text-4xl md:text-5xl font-bold text-white">{movie.title}</h1>
                     <div className="flex flex-wrap gap-3 mt-4">
-                        <div className="btn btn-sm btn-outline">
-                            <FaStar className="text-primary" />
-                            <span className="text-primary">{movie.rating}</span>
+                        <div className="btn btn-sm btn-outline border-white text-white hover:btn-disabled cursor-default">
+                            <FaStar className="text-yellow-500" />
+                            <span className="text-xs font-medium text-yellow-500">{movie.rating}</span>
                         </div>
-                        <div className="btn btn-sm btn-outline">
-                            <span className="text-base-content">{movie.releaseYear}</span>
+                        <div className="btn btn-sm btn-outline border-white text-white hover:btn-disabled cursor-default">
+                            <span className="text-xs font-medium">{movie.releaseYear}</span>
                         </div>
-                        <div className="btn btn-sm btn-outline">
-                            <span className="text-base-content">{movie.genre}</span>
+                        <div className="btn btn-sm btn-outline border-white text-white hover:btn-disabled cursor-default">
+                            <span className="text-xs font-medium">{movie.genre}</span>
                         </div>
                     </div>
                     <div className="flex gap-3 mt-6">
@@ -166,7 +211,7 @@ const MovieDetail = () => {
                         </button>
                         {user && user.email === movie.addedBy && (
                             <>
-                                <Link to={`/movies/${id}/edit`} className="btn btn-primary">
+                                <Link to={`/movies/update/${id}`} className="btn btn-primary">
                                     <FaEdit className="mr-2" /> Edit
                                 </Link>
                                 <button className="btn btn-error" onClick={handleDelete}>
@@ -177,14 +222,10 @@ const MovieDetail = () => {
                     </div>
                 </div>
             </section>
-
             {/* Details Section */}
-            <section
-                ref={(el) => (sectionRefs.current[1] = el)}
-                className="py-12"
-            >
+            <section ref={(el) => (sectionRefs.current[1] = el)} className="py-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="shadow-xl border border-secondary rounded-3xl p-6 bg-linear-to-b from-base-200 to-base-300 transition-transform duration-300 ">
+                    <div className="shadow-xl border border-secondary rounded-3xl p-6 bg-linear-to-b from-base-200 to-base-300 transition-transform duration-300">
                         <div className="flex items-center mb-4">
                             <FaFilm className="text-3xl text-primary mr-2" />
                             <h2 className="text-2xl font-semibold text-base-content">Movie Details</h2>
@@ -242,21 +283,17 @@ const MovieDetail = () => {
                     </div>
                 </div>
             </section>
-
             {/* Reviews Section */}
-            <section
-                ref={(el) => (sectionRefs.current[2] = el)}
-                className="py-12"
-            >
+            <section ref={(el) => (sectionRefs.current[2] = el)} className="py-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="shadow-xl border border-secondary rounded-3xl p-6 bg-linear-to-b from-base-200 to-base-300 transition-transform duration-300 ">
+                    <div className="shadow-xl border border-secondary rounded-3xl p-6 bg-linear-to-b from-base-200 to-base-300 transition-transform duration-300">
                         <div className="flex items-center mb-4">
                             <FaStar className="text-3xl text-primary mr-2" />
                             <h2 className="text-2xl font-semibold text-base-content">User Reviews</h2>
                         </div>
                         {user ? (
                             <form onSubmit={handleReviewSubmit} className="mb-6">
-                                <div className="form-control">
+                                <div className="form-control mb-6">
                                     <label className="label">
                                         <span className="label-text text-base-content">Your Review</span>
                                     </label>
@@ -290,8 +327,8 @@ const MovieDetail = () => {
                         )}
                         <div className="space-y-4">
                             {reviews.length > 0 ? (
-                                reviews.map((review, index) => (
-                                    <div key={index} className="border-b border-secondary pb-2">
+                                reviews.map((review) => (
+                                    <div key={review._id} className="border-b border-secondary pb-2">
                                         <p className="text-base-content">
                                             <strong>{review.userEmail}</strong> (Rating: {review.rating}/10)
                                         </p>

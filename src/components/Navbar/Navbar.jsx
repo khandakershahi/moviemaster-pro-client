@@ -1,5 +1,5 @@
 import React, { use, useEffect, useState } from 'react';
-import { FaUser, FaMoon, FaSun } from 'react-icons/fa';
+import { FaUser, FaMoon, FaSun, FaSearch } from 'react-icons/fa';
 import { AuthContext } from '../../context/AuthContext';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 
@@ -66,13 +66,15 @@ const Navbar = () => {
     const navLinks = (
         <>
             <li><a href="/" className="hover:text-primary">Home</a></li>
-            <li><a href="/all-movies" className="hover:text-primary">All Movies</a></li>
+            <li><a href="/movies" className="hover:text-primary">All Movies</a></li>
             {user && (
                 <>
-                    <li><a href="/my-collection" className="hover:text-primary">My Collection</a></li>
-                    <li><a href="/watchlist" className="hover:text-primary">Watchlist</a></li>
+                    <li><a href="/movies/add" className="hover:text-primary">Add Movie</a></li>
+                    <li><a href="/movies/my-collection" className="hover:text-primary">My Collection</a></li>
+                    <li><a href="/movies/watchlist" className="hover:text-primary">Watchlist</a></li>
                 </>
             )}
+            <li><a href="/movies/search" className="hover:text-primary"><FaSearch /></a></li>
         </>
     );
 
@@ -122,7 +124,8 @@ const Navbar = () => {
                         {userImage ? (
                             <img
                                 src={userImage}
-                                alt="User"
+                                alt={name || 'user'}
+                                title={name}
                                 referrerPolicy="no-referrer"
                                 onError={(e) => {
                                     e.target.src = '/default-avatar.png'; // local fallback image

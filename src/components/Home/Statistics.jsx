@@ -1,26 +1,40 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FaFilm, FaUsers } from 'react-icons/fa';
-import 'animate.css'; // Import animate.css
+import 'animate.css';
 import useAxios from '../../hooks/useAxios';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Statistics = () => {
-    const [length, setLength] = useState(0);
+    const [movieCount, setMovieCount] = useState(0);
+    const [userCount, setUserCount] = useState(0);
     const [error, setError] = useState(null);
     const axiosMain = useAxios();
+    const axiosSecure = useAxiosSecure();
     const cardRefs = useRef([]);
 
+    // Fetch total movies
     useEffect(() => {
         axiosMain
             .get('/movies')
-            .then((res) => {
-                setLength(res.data.length);
-            })
+            .then((res) => setMovieCount(res.data.length))
             .catch((err) => {
-                console.error('API Error:', err);
+                console.error('Failed to load movies:', err);
                 setError('Failed to load movie data');
             });
     }, [axiosMain]);
 
+    // Fetch total users
+    useEffect(() => {
+        axiosSecure
+            .get('/users') // Make sure your backend endpoint returns all users
+            .then((res) => setUserCount(res.data.length))
+            .catch((err) => {
+                console.error('Failed to load users:', err);
+                setError('Failed to load user data');
+            });
+    }, [axiosSecure]);
+
+    // IntersectionObserver for animations
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -28,11 +42,11 @@ const Statistics = () => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('animate__animated', 'animate__fadeInUp');
                         entry.target.style.animationDelay = `${index * 0.2}s`;
-                        observer.unobserve(entry.target); // Stop observing after animation
+                        observer.unobserve(entry.target);
                     }
                 });
             },
-            { threshold: 0.3 } // Trigger when 30% visible
+            { threshold: 0.3 }
         );
 
         cardRefs.current.forEach((card) => {
@@ -40,7 +54,6 @@ const Statistics = () => {
         });
 
         return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
             cardRefs.current.forEach((card) => {
                 if (card) observer.unobserve(card);
             });
@@ -49,12 +62,12 @@ const Statistics = () => {
 
     const stats = [
         {
-            value: error ? 'N/A' : length,
+            value: error ? 'N/A' : movieCount,
             label: 'Total Movies',
             icon: <FaFilm className="text-4xl text-primary mb-2" />,
         },
         {
-            value: 20, // Static for now; replace with API if dynamic
+            value: error ? 'N/A' : userCount,
             label: 'Total Users',
             icon: <FaUsers className="text-4xl text-primary mb-2" />,
         },

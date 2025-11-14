@@ -44,7 +44,7 @@ const TopRatedMovies = () => {
                 <div className='flex flex-row justify-between flex-wrap gap-3'>
                     {
                         topMvoies.map((movie, _id) =>
-                            <NavLink key={_id} to={`/movie-detials/${movie._id}`} className="shadow duration-300 hover:scale-105 hover:shadow-2xl">
+                            <NavLink key={_id} to={`/movies/${movie._id}`} className="shadow duration-300 hover:scale-105 hover:shadow-2xl">
                                 <div
                                     style={{
                                         backgroundImage: `url(${movie.posterUrl})`,
