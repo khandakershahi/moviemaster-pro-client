@@ -102,7 +102,7 @@ const MovieDetail = () => {
 
     // Handle watchlist toggle
     const handleWatchlistToggle = async () => {
-        console.log(user.email);
+        // console.log(user.email);
         if (!user) {
             toast.error('Please log in to add to watchlist');
             navigate('/login');
@@ -211,7 +211,7 @@ const MovieDetail = () => {
                         </button>
                         {user && user.email === movie.addedBy && (
                             <>
-                                <Link to={`/movies/update/${id}`} className="btn btn-primary">
+                                <Link to={`/movies-update/${id}`} className="btn btn-primary">
                                     <FaEdit className="mr-2" /> Edit
                                 </Link>
                                 <button className="btn btn-error" onClick={handleDelete}>

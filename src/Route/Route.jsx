@@ -24,11 +24,11 @@ const router = createBrowserRouter([
             { index: true, Component: Home },
             { path: '/movies', Component: AllMovies },
             {
-                path: '/movies/my-collection',
+                path: '/movies-my-collection',
                 element: <PrivateRoute><MyCollection /></PrivateRoute>,
             },
             {
-                path: '/movies/watchlist',
+                path: '/movies-watchlist',
                 element: <PrivateRoute><WatchList></WatchList></PrivateRoute>,
             },
             {
@@ -44,15 +44,15 @@ const router = createBrowserRouter([
                 Component: MovieDetails
             },
             {
-                path: '/movies/add',
+                path: '/movies-add',
                 element: <PrivateRoute><MovieAdd /></PrivateRoute>,
             },
             {
-                path: '/movies/update/:id',
+                path: '/movies-update/:id',
                 element: <PrivateRoute><MovieEdit /></PrivateRoute>,
             },
             {
-                path: '/movies/search',
+                path: '/movies-search',
                 Component: Search,
             },
             {

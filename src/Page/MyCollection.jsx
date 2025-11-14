@@ -44,7 +44,7 @@ const MyCollection = () => {
     };
 
     const handleEdit = (id) => {
-        window.location.href = `/movies/update/${id}`;
+        window.location.href = `/movies-update/${id}`;
     };
 
     if (loading) {

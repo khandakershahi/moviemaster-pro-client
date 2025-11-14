@@ -2,14 +2,14 @@ import React, { use, useEffect, useState } from 'react';
 import { FaUser, FaMoon, FaSun, FaSearch } from 'react-icons/fa';
 import { AuthContext } from '../../context/AuthContext';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
-import {  NavLink, useNavigate } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 
 const Navbar = () => {
     const { user, siginOutUser } = use(AuthContext);
     const axiosSecure = useAxiosSecure();
     const [isdark, setIsdark] = useState(JSON.parse(localStorage.getItem('isdark') || 'false'));
     const [userImage, setUserImage] = useState(null);
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         localStorage.setItem('isdark', JSON.stringify(isdark));
@@ -40,7 +40,7 @@ const Navbar = () => {
         fetchUserData();
     }, [user, axiosSecure]);
 
-  
+
 
     const navLinks = (
         <>
@@ -68,7 +68,7 @@ const Navbar = () => {
                 <>
                     <li>
                         <NavLink
-                            to="/movies/add"
+                            to="/movies-add"
                             className={({ isActive }) =>
                                 `hover:text-primary ${isActive ? 'text-primary font-bold' : ''}`
                             }
@@ -78,7 +78,7 @@ const Navbar = () => {
                     </li>
                     <li>
                         <NavLink
-                            to="/movies/my-collection"
+                            to="/movies-my-collection"
                             className={({ isActive }) =>
                                 `hover:text-primary ${isActive ? 'text-primary font-bold' : ''}`
                             }
@@ -88,7 +88,7 @@ const Navbar = () => {
                     </li>
                     <li>
                         <NavLink
-                            to="/movies/watchlist"
+                            to="/movies-watchlist"
                             className={({ isActive }) =>
                                 `hover:text-primary h-[33px] ${isActive ? 'text-primary font-bold' : ''}`
                             }
@@ -100,7 +100,7 @@ const Navbar = () => {
             )}
             <li>
                 <NavLink
-                    to="/movies/search"
+                    to="/movies-search"
                     className={({ isActive }) =>
                         `hover:text-primary flex items-center ${isActive ? 'text-primary font-bold' : ''}`
                     }
