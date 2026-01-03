@@ -17,6 +17,8 @@ import MainLayout from "../Layout/MainLayout";
 import Search from "../Page/Search";
 import PrivacyPage from "../Page/PrivacyPage";
 import TermsPage from "../Page/TermsPage";
+import About from "../Page/About";
+import Contact from "../Page/Contact";
 
 const router = createBrowserRouter([
   {
@@ -85,6 +87,14 @@ const router = createBrowserRouter([
       {
         path: "/terms",
         Component: TermsPage,
+      },
+      {
+        path: "/about",
+        Component: About,
+      },
+      {
+        path: "/contact",
+        Component: Contact,
       },
     ],
   },

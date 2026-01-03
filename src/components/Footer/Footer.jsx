@@ -1,6 +1,8 @@
 import React from 'react';
-import { BsTwitterX } from 'react-icons/bs';
+import { BsGithub, BsTwitterX } from 'react-icons/bs';
 import { FaFacebook, FaYoutube } from 'react-icons/fa';
+import { FaLinkedin } from 'react-icons/fa6';
+import { TbWorld } from 'react-icons/tb';
 import { NavLink } from 'react-router';
 
 const Footer = () => {
@@ -21,8 +23,8 @@ const Footer = () => {
                         <h6 className="footer-title">Quick Links</h6>
                         <NavLink to='/' className="link link-hover">Home</NavLink>
                         <NavLink to='/all-movies' className="link link-hover">Movies</NavLink>
-                        <a className="link link-hover">About</a>
-                        <a className="link link-hover">Contact</a>
+                        <NavLink to='/about' className="link link-hover">About</NavLink>
+                        <NavLink to='/contact' className="link link-hover">Contact</NavLink>
                     </nav>
                     <nav>
                         <h6 className="footer-title">Privacy</h6>
@@ -36,18 +38,18 @@ const Footer = () => {
                         <h6 className="footer-title">Follow Us</h6>
                         <div className="grid grid-flow-col gap-4">
                             {/* Twitter */}
-                            <a href="#" aria-label="Twitter">
-                                <BsTwitterX />
+                            <a href="https://github.com/khandakershahi" aria-label="GitHub">
+                                <BsGithub />
                             </a>
 
                             {/* YouTube */}
-                            <a href="#" aria-label="YouTube">
-                                <FaYoutube />
+                            <a href="https://khandakershahi.com/" aria-label="Website">
+                                <TbWorld />
                             </a>
 
                             {/* Facebook */}
-                            <a href="#" aria-label="Facebook">
-                                <FaFacebook />
+                            <a href="https://www.linkedin.com/in/khandaker-shahi/" aria-label="Linkedin">
+                                <FaLinkedin />
                             </a>
                         </div>
                     </nav>

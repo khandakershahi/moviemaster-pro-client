@@ -64,6 +64,36 @@ const Navbar = () => {
                     All Movies
                 </NavLink>
             </li>
+            <li>
+                <NavLink
+                    to="/about"
+                    className={({ isActive }) =>
+                        `hover:text-primary ${isActive ? 'text-primary font-bold' : ''}`
+                    }
+                >
+                    About
+                </NavLink>
+            </li>
+            <li>
+                <a
+                    href="/#faq"
+                    className={({ isActive }) =>
+                        `hover:text-primary ${isActive ? 'text-primary font-bold' : ''}`
+                    }
+                >
+                    FAQ
+                </a>
+            </li>
+            <li>
+                <NavLink
+                    to="/contact"
+                    className={({ isActive }) =>
+                        `hover:text-primary ${isActive ? 'text-primary font-bold' : ''}`
+                    }
+                >
+                    Contact
+                </NavLink>
+            </li>
             {user && (
                 <>
                     <li>
