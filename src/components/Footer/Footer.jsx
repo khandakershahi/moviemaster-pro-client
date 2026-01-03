@@ -24,6 +24,12 @@ const Footer = () => {
                         <a className="link link-hover">About</a>
                         <a className="link link-hover">Contact</a>
                     </nav>
+                    <nav>
+                        <h6 className="footer-title">Privacy</h6>
+                        <NavLink to='/privacy' className="link link-hover">Privacy Policy</NavLink>
+                        <NavLink to='/terms' className="link link-hover">Terms</NavLink>
+
+                    </nav>
 
                     {/* Social Section */}
                     <nav>
