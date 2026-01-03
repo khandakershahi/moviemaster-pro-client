@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const axiosInstance = axios.create({
-    baseURL: 'https://moviemaster-pro-server-gamma.vercel.app',
+    baseURL: import.meta.env.VITE_API_URL,
 
 })
 

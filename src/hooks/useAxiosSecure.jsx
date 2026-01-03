@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 const instance = axios.create({
-    baseURL: 'https://moviemaster-pro-server-gamma.vercel.app'
+    baseURL: import.meta.env.VITE_API_URL
 });
 
 const useAxiosSecure = () => {
