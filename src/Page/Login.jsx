@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { NavLink, useNavigate, useLocation } from "react-router";
@@ -6,8 +6,15 @@ import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
     const { signInUser, signIngWithGoogle } = useContext(AuthContext);
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
+
+    const demoCreds = {
+        email: "demo@example.com",
+        password: "123456@Test",
+    };
 
     // Email/password login
     const handleSubmit = async (e) => {
@@ -39,6 +46,22 @@ const Login = () => {
         }
     };
 
+    const handleAutofillDemo = () => {
+        if (emailRef.current) emailRef.current.value = demoCreds.email;
+        if (passwordRef.current) passwordRef.current.value = demoCreds.password;
+        toast.success("Demo credentials filled");
+    };
+
+    const handleCopyDemo = async () => {
+        try {
+            await navigator.clipboard.writeText(`${demoCreds.email} / ${demoCreds.password}`);
+            toast.success("Demo credentials copied");
+        } catch (err) {
+            console.error("Copy failed", err);
+            toast.error("Copy not allowed in this context");
+        }
+    };
+
     return (
         <div className="min-h-[70vh]">
         <div className="flex justify-center py-10 px-4 ">
@@ -56,6 +79,7 @@ const Login = () => {
                                 className="input w-full"
                                 placeholder="Email"
                                 name="email"
+                                ref={emailRef}
                                 required
                             />
                         </div>
@@ -67,6 +91,7 @@ const Login = () => {
                                 className="input w-full"
                                 placeholder="Password"
                                 name="password"
+                                ref={passwordRef}
                                 required
                             />
                         </div>
@@ -75,6 +100,22 @@ const Login = () => {
                             <NavLink to="/register" className="link link-hover text-sm sm:text-base">
                                 New to site? Register here.
                             </NavLink>
+                        </div>
+
+                        <div className="rounded-lg border border-base-300 bg-base-200/60 p-3 space-y-2">
+                            <div className="flex flex-col items-center justify-between gap-2">
+                                <p className="text-sm text-base-content/80">Demo account for reviewers</p>
+                                <div className="badge badge-outline">demo@example.com</div>
+                            </div>
+                            <div className="flex flex-col flex-wrap items-center gap-2">
+                                <span className="badge badge-neutral">Password: 123456@Test</span>
+                                <button type="button" className="btn btn-xs btn-primary" onClick={handleAutofillDemo}>
+                                    Autofill login
+                                </button>
+                                <button type="button" className="btn btn-xs" onClick={handleCopyDemo}>
+                                    Copy creds
+                                </button>
+                            </div>
                         </div>
 
                         <button type="submit" className="btn btn-primary mt-4 w-full">
