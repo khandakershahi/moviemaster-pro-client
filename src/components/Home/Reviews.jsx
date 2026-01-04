@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// adjust path if needed
 import { FaStar } from 'react-icons/fa';
 import useAxios from '../../hooks/useAxios';
 
@@ -25,9 +24,12 @@ const Reviews = () => {
                     Latest Reviews
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {reviews.map((review) => (
+                    {reviews.map((review) => {
+                        const key = review._id?.$oid || review._id || `${review.userEmail}-${review.movieId}`;
+                        const stars = Math.max(1, Math.round(review.rating || 0));
+                        return (
                         <div
-                            key={review._id.$oid}
+                            key={key}
                             className="shadow-lg rounded-xl p-6 flex flex-col gap-4 bg-linear-to-b from-base-200 to-base-300"
                         >
                             <div className="flex items-center gap-3">
@@ -41,8 +43,8 @@ const Reviews = () => {
                                 <div>
                                     <h3 className="font-semibold">{review.movie?.title || 'Unknown Movie'}</h3>
                                     <div className="flex items-center gap-1 text-yellow-500">
-                                        {Array.from({ length: review.rating }).map((_, i) => (
-                                            <FaStar key={i} />
+                                        {Array.from({ length: stars }).map((_, i) => (
+                                            <FaStar key={`star-${key}-${i}`} />
                                         ))}
                                     </div>
                                 </div>
@@ -52,7 +54,8 @@ const Reviews = () => {
                                 by {review.userEmail.split('@')[0]}
                             </span>
                         </div>
-                    ))}
+                    );
+                    })}
                 </div>
             </div>
         </section>

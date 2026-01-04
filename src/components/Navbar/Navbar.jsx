@@ -1,11 +1,11 @@
-import React, { use, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaUser, FaMoon, FaSun, FaSearch } from 'react-icons/fa';
 import { AuthContext } from '../../context/AuthContext';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { NavLink, useNavigate } from 'react-router';
 
 const Navbar = () => {
-    const { user, siginOutUser } = use(AuthContext);
+    const { user, siginOutUser } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
     const [isdark, setIsdark] = useState(JSON.parse(localStorage.getItem('isdark') || 'false'));
     const [userImage, setUserImage] = useState(null);
@@ -77,9 +77,7 @@ const Navbar = () => {
             <li>
                 <a
                     href="/#faq"
-                    className={({ isActive }) =>
-                        `hover:text-primary ${isActive ? 'text-primary font-bold' : ''}`
-                    }
+                    className="hover:text-primary"
                 >
                     FAQ
                 </a>
@@ -206,7 +204,7 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal px-1 gap-2">{navLinks}</ul>
                 </div>
 
-                {/* Right: Theme + User Icon + Login/Logout (desktop only) */}
+                {/* Right: Theme + User dropdown (desktop only) */}
                 <div className="navbar-end flex items-center gap-4 hidden lg:flex">
                     {/* Dark Mode Toggle */}
                     <label className="swap swap-rotate">
@@ -220,34 +218,38 @@ const Navbar = () => {
                         <FaMoon className="swap-on fill-current w-6 h-6" />
                     </label>
 
-                    {/* User Icon */}
-                    <div className="flex items-center gap-3">
-                        {userImage ? (
-                            <img
-                                src={userImage}
-                                alt={'user'}
-                                title={user?.displayName || 'User'}
-                                referrerPolicy="no-referrer"
-                                onError={(e) => (e.target.src = '/default-avatar.png')}
-                                className="w-10 h-10 rounded-full object-cover border-2 border-primary"
-                            />
-                        ) : (
-                            <div className="w-10 h-10 rounded-full bg-base-300 flex items-center justify-center border-2 border-base-content/20">
-                                <FaUser className="w-6 h-6 text-base-content/70" />
+                    {/* User dropdown */}
+                    {user ? (
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img
+                                        alt={user?.displayName || 'User avatar'}
+                                        src={userImage || '/default-avatar.png'}
+                                        referrerPolicy="no-referrer"
+                                        onError={(e) => (e.target.src = '/default-avatar.png')}
+                                    />
+                                </div>
                             </div>
-                        )}
-
-                        {/* Desktop Login/Logout */}
-                        {user ? (
-                            <button onClick={handleSignOut} className="btn btn-primary btn-sm">
-                                Logout
-                            </button>
-                        ) : (
-                            <NavLink to="/login" className="btn btn-primary btn-sm">
-                                Login / Register
-                            </NavLink>
-                        )}
-                    </div>
+                            <ul
+                                tabIndex={-1}
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+                            >
+                                <li>
+                                    <NavLink to="/dashboard" className="justify-between">
+                                        Dashboard
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <button onClick={handleSignOut}>Logout</button>
+                                </li>
+                            </ul>
+                        </div>
+                    ) : (
+                        <NavLink to="/login" className="btn btn-primary btn-sm">
+                            Login / Register
+                        </NavLink>
+                    )}
                 </div>
             </div>
         </nav>

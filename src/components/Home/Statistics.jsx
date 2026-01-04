@@ -7,6 +7,7 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 const Statistics = () => {
     const [movieCount, setMovieCount] = useState(0);
     const [userCount, setUserCount] = useState(0);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const axiosMain = useAxios();
     const axiosSecure = useAxiosSecure();
@@ -20,7 +21,8 @@ const Statistics = () => {
             .catch((err) => {
                 console.error('Failed to load movies:', err);
                 setError('Failed to load movie data');
-            });
+            })
+            .finally(() => setLoading(false));
     }, [axiosMain]);
 
     // Fetch total users
@@ -73,20 +75,29 @@ const Statistics = () => {
         },
     ];
 
+    const skeletons = Array.from({ length: stats.length });
+
     return (
         <section className="py-12 bg-base-100">
             <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-6 px-4 sm:px-6 lg:px-8">
-                {stats.map((stat, index) => (
-                    <div
-                        key={stat.label}
-                        ref={(el) => (cardRefs.current[index] = el)}
-                        className="shadow-xl border border-secondary w-80 sm:w-96 flex flex-col justify-center items-center h-48 rounded-3xl bg-linear-to-b from-base-200 to-base-300 transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
-                    >
-                        {stat.icon}
-                        <p className="text-6xl font-black text-primary">{stat.value}</p>
-                        <p className="text-xl font-bold text-base-content mt-2">{stat.label}</p>
-                    </div>
-                ))}
+                {loading
+                    ? skeletons.map((_, idx) => (
+                        <div
+                            key={`stat-skeleton-${idx}`}
+                            className="shadow-xl border border-secondary w-80 sm:w-96 h-48 rounded-3xl bg-base-300 animate-pulse"
+                        />
+                    ))
+                    : stats.map((stat, index) => (
+                        <div
+                            key={stat.label}
+                            ref={(el) => (cardRefs.current[index] = el)}
+                            className="shadow-xl border border-secondary w-80 sm:w-96 flex flex-col justify-center items-center h-48 rounded-3xl bg-linear-to-b from-base-200 to-base-300 transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
+                        >
+                            {stat.icon}
+                            <p className="text-6xl font-black text-primary">{stat.value}</p>
+                            <p className="text-xl font-bold text-base-content mt-2">{stat.label}</p>
+                        </div>
+                    ))}
             </div>
         </section>
     );

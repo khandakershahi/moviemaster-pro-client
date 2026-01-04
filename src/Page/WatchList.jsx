@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { FaTrash, FaPlay } from 'react-icons/fa';
+import Loading from '../components/Loading/Loading';
 
 const Watchlist = () => {
     
@@ -45,12 +46,12 @@ const Watchlist = () => {
         });
     };
 
-    if (loading) return <p className="text-center py-10">Loading...</p>;
+    if (loading) return <Loading />;
     if (!user) return <p className="text-center py-10">Please log in to view your watchlist.</p>;
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-10">
-            <h1 className="text-3xl font-bold mb-6 text-center">🎬 My Watchlist</h1>
+            <h1 className="text-5xl font-extrabold text-primary mb-12 text-center">My Watchlist</h1>
             {movies.length === 0 ? (
                 <p className="text-center text-lg text-base-content">No movies in your watchlist.</p>
             ) : (

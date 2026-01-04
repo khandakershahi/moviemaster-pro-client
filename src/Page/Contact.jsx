@@ -7,40 +7,40 @@ const Contact = () => {
                 {/* Contact Form */}
                 <div>
                     <h2 className="text-4xl font-bold text-primary mb-6">Get in Touch</h2>
-                    <p className="text-gray-700 mb-8">
+                    <p className="text-base-content/70 mb-8">
                         Have questions or want to collaborate? Fill out the form below and we'll get back to you shortly.
                     </p>
                     <form className="space-y-4">
                         <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="name" className="block text-sm font-medium text-base-content/80">
                                 Name
                             </label>
                             <input
                                 type="text"
                                 id="name"
-                                className="mt-1 block w-full border border-secondary rounded-lg p-3 bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary"
+                                className="mt-1 block w-full border border-base-300 rounded-lg p-3 bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary"
                                 placeholder="Your Name"
                             />
                         </div>
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="email" className="block text-sm font-medium text-base-content/80">
                                 Email
                             </label>
                             <input
                                 type="email"
                                 id="email"
-                                className="mt-1 block w-full border border-secondary rounded-lg p-3 bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary"
+                                className="mt-1 block w-full border border-base-300 rounded-lg p-3 bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary"
                                 placeholder="Your Email"
                             />
                         </div>
                         <div>
-                            <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="message" className="block text-sm font-medium text-base-content/80">
                                 Message
                             </label>
                             <textarea
                                 id="message"
                                 rows="5"
-                                className="mt-1 block w-full border border-secondary rounded-lg p-3 bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary"
+                                className="mt-1 block w-full border border-base-300 rounded-lg p-3 bg-base-200 focus:outline-none focus:ring-2 focus:ring-primary"
                                 placeholder="Your Message"
                             ></textarea>
                         </div>
@@ -53,7 +53,7 @@ const Contact = () => {
                     </form>
 
                     {/* Contact Info */}
-                    <div className="mt-12 space-y-4 text-gray-700">
+                    <div className="mt-12 space-y-4 text-base-content/80">
                         <p>
                             <strong>Address:</strong> 123 Movie Lane, Film City, CA 90000
                         </p>

@@ -7,22 +7,46 @@ import 'swiper/css/navigation';
 
 import { FaPlay, FaStar } from 'react-icons/fa';
 import { FiInfo } from 'react-icons/fi';
+import { useNavigate } from 'react-router';
 import useAxios from '../../hooks/useAxios';
 
 
 const Hero = () => {
 
     const [sliderData, setSliderData] = useState([]);
-    const axiosMain = useAxios()
+    const [loading, setLoading] = useState(true);
+    const axiosMain = useAxios();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        setLoading(true);
         axiosMain.get('/movie-slider')
             .then(res => {
                 // console.log('slider data', res.data);
                 setSliderData(res.data);
             })
+            .finally(() => setLoading(false));
     }, [axiosMain])
 
+    if (loading) {
+        return (
+            <div className="relative w-full bg-base-300 animate-pulse" style={{ height: '82vh' }}>
+                <div className="absolute inset-0 flex flex-col justify-center items-start px-10 gap-4 max-w-7xl mx-auto">
+                    <div className="skeleton h-10 w-96"></div>
+                    <div className="flex gap-3">
+                        <div className="skeleton h-8 w-24"></div>
+                        <div className="skeleton h-8 w-20"></div>
+                        <div className="skeleton h-8 w-28"></div>
+                    </div>
+                    <div className="skeleton h-20 w-full max-w-lg"></div>
+                    <div className="flex gap-2">
+                        <div className="skeleton h-10 w-24"></div>
+                        <div className="skeleton h-10 w-28"></div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -78,8 +102,18 @@ const Hero = () => {
                                 </div>
                                 <p className="mt-4 max-w-lg">{slider.plotSummary}</p>
                                 <div className='flex gap-2'>
-                                    <button className='btn btn-dark hover:btn-disabled cursor-default dark:btn-outline'><FaPlay />Play</button>
-                                    <button className='btn btn-outline hover:btn-disabled cursor-default'><FiInfo />See More</button>
+                                    <button 
+                                        className='btn btn-dark dark:btn-outline'
+                                        onClick={() => navigate(`/movies/${slider._id}`)}
+                                    >
+                                        <FaPlay />Play
+                                    </button>
+                                    <button 
+                                        className='btn btn-outline'
+                                        onClick={() => navigate(`/movies/${slider._id}`)}
+                                    >
+                                        <FiInfo />See More
+                                    </button>
                                 </div>
                             </div>
                         </SwiperSlide>

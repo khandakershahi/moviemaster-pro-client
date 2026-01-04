@@ -5,6 +5,7 @@ import { FaEdit } from 'react-icons/fa';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import { auth } from '../firebase/firebase.init';
 import toast from 'react-hot-toast';
+import Loading from '../components/Loading/Loading';
 
 const MovieEdit = () => {
     const { id } = useParams();
@@ -67,7 +68,7 @@ const MovieEdit = () => {
         }
     };
 
-    if (!movieData) return <div>Loading...</div>;
+    if (!movieData) return <Loading />;
 
     return (
         <section className="py-12 bg-base-100">

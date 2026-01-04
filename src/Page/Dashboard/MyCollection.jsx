@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FaStar, FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
-import useAuth from "../hooks/useAuth";
-import useAxiosSecure from "../hooks/useAxiosSecure";
-import Loading from "../components/Loading/Loading";
+import { useNavigate } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Loading from "../../components/Loading/Loading";
 
-const MyCollection = () => {
+const DashboardMyCollection = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
     const [myMovies, setMyMovies] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -45,7 +47,7 @@ const MyCollection = () => {
     };
 
     const handleEdit = (id) => {
-        window.location.href = `/movies-update/${id}`;
+        navigate(`/dashboard/edit/${id}`);
     };
 
     if (loading) {
@@ -55,14 +57,14 @@ const MyCollection = () => {
     return (
         <div className="max-w-7xl mx-auto py-10">
             <div className="flex flex-col gap-4 px-4 ">
-                <h2 lassName="text-5xl font-extrabold text-primary mb-12 text-center">My Collections</h2>
+                <h2 className="text-5xl font-extrabold text-primary mb-12 text-center"> My Collections</h2>
 
                 {myMovies.length === 0 ? (
                     <p className="text-gray-400 text-center mt-6">
                         You haven’t added any movies yet.
                     </p>
                 ) : (
-                        <div className="flex flex-row justify-center md:justify-between flex-wrap gap-5">
+                    <div className="flex flex-row justify-center md:justify-between flex-wrap gap-5">
                         {myMovies.map((movie) => (
                             <div
                                 key={movie._id}
@@ -78,10 +80,8 @@ const MyCollection = () => {
                                     color: "white",
                                 }}
                             >
-                                {/* Dark overlay */}
                                 <div className="absolute inset-0 bg-black/40"></div>
 
-                                {/* Buttons */}
                                 <div className="absolute top-2 right-2 flex gap-2 z-10">
                                     <button
                                         onClick={() => handleEdit(movie._id)}
@@ -97,7 +97,6 @@ const MyCollection = () => {
                                     </button>
                                 </div>
 
-                                {/* Movie info */}
                                 <div className="absolute bottom-0 px-2 pb-2 z-10">
                                     <span className="text-xs font-medium text-yellow-500 flex gap-1 items-center">
                                         <FaStar className="text-yellow-500" />
@@ -114,4 +113,4 @@ const MyCollection = () => {
     );
 };
 
-export default MyCollection;
+export default DashboardMyCollection;

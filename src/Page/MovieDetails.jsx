@@ -8,6 +8,7 @@ import { auth } from '../firebase/firebase.init';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../hooks/useAxiosSecure';
+import Loading from '../components/Loading/Loading';
 
 const MovieDetail = () => {
     const { id } = useParams();
@@ -166,13 +167,7 @@ const MovieDetail = () => {
     }
 
     if (!movie) {
-        return (
-            <section className="py-12 bg-base-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <p className="text-xl text-base-content">Loading...</p>
-                </div>
-            </section>
-        );
+        return <Loading />;
     }
 
     return (

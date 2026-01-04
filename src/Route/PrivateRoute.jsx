@@ -1,17 +1,18 @@
-import React, { use } from 'react';
+import React, { useContext } from 'react';
 
 import { Navigate, useLocation } from 'react-router';
 import { AuthContext } from '../context/AuthContext';
+import Loading from '../components/Loading/Loading';
 
 
 const PrivateRoute = ({ children }) => {
-    const { user, loading } = use(AuthContext)
+    const { user, loading } = useContext(AuthContext)
 
     const location = useLocation();
     // console.log(location)
 
     if (loading) {
-        return <span className="loading loading-spinner text-success"></span>
+        return <Loading />
     }
 
     if (user) {

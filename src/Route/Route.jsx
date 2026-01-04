@@ -19,6 +19,14 @@ import PrivacyPage from "../Page/PrivacyPage";
 import TermsPage from "../Page/TermsPage";
 import About from "../Page/About";
 import Contact from "../Page/Contact";
+import DashboardLayout from "../Layout/DashboardLayout";
+import DashboardHome from "../Page/DashboardHome";
+import DashboardAddMovie from "../Page/Dashboard/AddMovie";
+import DashboardWatchList from "../Page/Dashboard/WatchList";
+import DashboardMyCollection from "../Page/Dashboard/MyCollection";
+import DashboardMyReviews from "../Page/Dashboard/MyReviews";
+import DashboardEditMovie from "../Page/Dashboard/EditMovie";
+import DashboardProfile from "../Page/Dashboard/Profile";
 
 const router = createBrowserRouter([
   {
@@ -96,6 +104,23 @@ const router = createBrowserRouter([
         path: "/contact",
         Component: Contact,
       },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      { index: true, Component: DashboardHome },
+      { path: "add-movie", Component: DashboardAddMovie },
+      { path: "watchlist", Component: DashboardWatchList },
+      { path: "my-collection", Component: DashboardMyCollection },
+      { path: "my-reviews", Component: DashboardMyReviews },
+      { path: "profile", Component: DashboardProfile },
+      { path: "edit/:id", Component: DashboardEditMovie },
     ],
   },
   { path: "*", Component: Error404 }, // Top-level 404

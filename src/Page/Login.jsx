@@ -40,7 +40,8 @@ const Login = () => {
     };
 
     return (
-        <div className="flex justify-center py-10 px-4">
+        <div className="min-h-[70vh]">
+        <div className="flex justify-center py-10 px-4 ">
             <div className="card bg-base-100 w-full max-w-sm sm:max-w-md md:max-w-lg shrink-0 shadow-2xl border border-secondary">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mt-6">
                     Login now!
@@ -90,6 +91,7 @@ const Login = () => {
                     Login with Google
                 </button>
             </div>
+        </div>
         </div>
 
     );
